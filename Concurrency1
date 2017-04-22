@@ -34,7 +34,7 @@ void buff_unlock(void);
 
 /* Consumer and producer functions */
 void *consumer(void *arg);
-void *producer(void);
+void *producer(void *arg);
 
 /* Functions for getting a random number */
 int get_rand(void);
@@ -90,7 +90,7 @@ void *consumer(void *arg)
 	}
 }
 
-void *producer(void)
+void *producer(void *arg)
 {
 	struct item buff_item;
 	
@@ -164,7 +164,7 @@ int main(int argc, char **argv)
 	
 	/* Producer thread */
    for (i = 0; i < num_threads; i++)
-		pthread_create(&(threads[i], NULL, producer, NULL);
+		pthread_create(&(threads[i]), NULL, producer, NULL);
 	
 	return 0;
 }
