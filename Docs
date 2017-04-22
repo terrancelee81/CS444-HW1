@@ -1,0 +1,167 @@
+\documentclass[draftclsnofoot,onecolumn,10pt,compsoc]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{url}
+\usepackage{hyperref}
+
+\usepackage{graphicx} %package to manage images
+\graphicspath{ {images/} }
+
+\usepackage{enumitem}
+
+\usepackage[letterpaper, margin=.75in]{geometry}
+
+\newcommand{\toc}{\tableofcontents}
+
+\usepackage{hyperref}
+\usepackage{listings}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\renewcommand{\lstlistingname}{Code Example} % a listing caption title.
+%\renewcommand{\lstlistlistingname}{List of \lstlistingname s} % list of lists -> list of Thread Program
+\lstset{
+    frame=single,
+    language=C,
+    columns=flexible,
+    numbers=left,
+    numbersep=5pt,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=4,
+    captionpos=b
+}
+
+\def\name{Terrance Lee }
+
+%% The following metadata will show up in the PDF properties
+\hypersetup{
+  colorlinks = false,
+  urlcolor = black,
+  pdfauthor = {\name},
+  pdfkeywords = {},
+  pdftitle = {},
+  pdfsubject = {},
+  pdfpagemode = UseNone
+}
+
+\parindent = 0.0 in
+\parskip = 0.1 in
+
+\begin{document}
+
+\begin{titlepage}
+\title{Project 1}
+\author{CS444 - Spring 2017 \\ Terrance Lee, Raja Petroff, Markus Woltjer}
+\maketitle
+\begin{abstract}
+The following document contains information about project 1 which include the steps for the setup of the kernel and producer-consumer problem explanation.  This also includes version control and overall work done.  
+\end{abstract}
+
+\thispagestyle{empty} % gets rid of the "0" page number.
+
+\end{titlepage}
+%\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Command Log}
+\begin{enumerate}
+     \item Terminal one: ssh os-class
+\item Terminal two: ssh os-class
+\item Terminal one: cd /scratch/spring2017/
+\item Terminal one: mkdir 10-11
+\item Terminal one: cd 10-11
+\item Terminal one: git clone git://git.yoctoproject.org/linux-yocto-3.14
+\item Terminal one: cd linux-yocto-3.14
+\item Terminal one: git checkout v3.14.26
+\item Terminal one: source /scratch/opt/environment-setup-i586-poky-linux.csh
+\item Terminal one: cp /scratch/spring2017/files/config-3.14.26-yocto-qemu .config
+\item Terminal one: make menuconfig
+\item Linux Kernel configuration menu: /LOCALVERSION
+\item Linux Kernel configuration menu: 1 Enter
+\item Linux Kernel configuration menu: Append "-10-11-hw1" to "yocto-standard"
+\item Linux Kernel configuration menu: Arrow keys and Enter to save (as .config) and exit the menu
+\item Terminal one: make -j4 all
+\item Terminal one: cd ..
+\item Terminal one: gdb
+\item Terminal two: cd /scratch/spring2017/10-11
+\item Terminal two: source /scratch/opt/environment-setup-i586-poky-linux.csh
+\item Terminal two: cp /scratch/spring2017/files/bzImage-qemux86.bin .
+\item Terminal two: cp /scratch/spring2017/files/core-image-lssdk-qemux86.ext3 .
+\item Terminal two: qemu-system-i386 -gdb tcp::6511 -S -nographic -kernel bzImage-qemux86.bin -drive file=core-image-lsb-sdk-qemux86.ext3,if=virtio -enable-kvm -net none -usb -localtime --no-reboot --append "root=/dev/vda rw console=ttyS0 debug"
+\item Terminal one (in gdb): target remote :6511
+\item Terminal one (in gdb): continue
+\item Terminal two: root
+\item Terminal two: uname -a
+\item At this point, you should see the name of the original kernel image.
+\item Terminal two: reboot
+\item Terminal one (in gdb): q
+\item Terminal one (in gdb): gdb
+\item Terminal two: qemu-system-i386 -gdb tcp::6511 -S -nographic -kernel linux-yocto-3.14/arch/x86/boot/bzImage  -drive file=core-image-lsb-sdk-qemux86.ext3,if=virtio -enable-kvm -net none -usb -localtime --no-reboot --append "root=/dev/vda rw console=ttyS0 debug"
+\item Terminal one (in gdb): target remote :6511
+\item Terminal one (in gdb): continue
+\item Terminal two: root
+\item Terminal two: uname -a
+\item At this point, you should see the name of the customized kernel image.
+\item Terminal two: reboot
+\item Terminal one: q
+	
+\end{enumerate}
+\section{Concurrency Solution}
+\subsection{What do you think the main point of the assignment was?}
+We believe that the main point of the assignment is to get thinking about concurrency, parallelism in programming, as well as common sense of thinking about programming.  One other thing of this assignment that we saw in this assignment that was in this assignment was learning to work with people you may not known.  How to adjust to their style a work with it.
+\subsection{How did you personally approach the problem?}
+We thought about how in real life this "problem" would really happen.  Well you need stuff to be on the shelf before you can consume it.  Also there is one producer usually but many consumer but may be more than more producer in town so prepare for that.  With that background in mind we approach the implementation with addressing producer and consumer with similar functions because they are both doing about the same thing except that one is putting an item in and one is pulling them out of the buffer.  We understood that they were going to need Mutex locks at certain times for both at different points as well.  This was very important part.  
+\subsection{How did you ensure your solution was correct?}
+We tested the code with printf functions to make sure that first the producer and consumer where locking and unlocking correctly.  Then we made sure that they were waiting the proper times and putting out random numbers as well.  We tested the code not just once because you may get it correct the first time or even the second time but the tenth time may have an error.  So we tested it many times.  
+\subsection{What did you learn?}
+First we learned we all have to adjust to each other quickly.  We are all different have different personalities and we're smart. If we adjust to each other we can get work done quickly and efficiently as well as correctly. We learned from concurrency that our threads aren't deadlock and that you use  
+\section{Qemu Command-Line Flags}
+\begin{itemize}
+	\item -gdb tcp::6511 - Open a GDB server on TCP port 6511
+	\item -S - Do not start the CPU at startup.
+	\item -nographic - Disables graphical output so that QEMU is a command line operation.
+	\item -kernel linux-yocto-4.14/arch/x86/boot/bzImage - Uses this bzImage as a kernel image.
+	\item -drive file=core-image-quemux86.ext3 - Defines a new drive with the file option set.
+	\item if=virtio
+	\item -enable-kvm - Enables KVM virtualization report.
+	\item -net none - Indicates that no network devices should be configured.
+	\item -usb - Enables the USB driver.
+	\item -localtime - Gives the local time.
+	\item -- no-reboot
+	\item -- apend "root=/dev/vda rw console=ttyS0 debug" - Uses the argument as the kernel command line.
+\end{itemize}
+\section{Version Control Log}
+\begin{center}
+	\begin{tabular}{| p{0.3\linewidth} | p{0.3\linewidth} | p{0.3\linewidth} |}
+		\hline User & Commit Message & Date\\
+		\hline terrancelee81 & added producer-consumer& April 21th\\
+		\hline terrancelee81 & fixed errors & April 21th\\
+		\hline terrancelee81 & Added Makefile & April 21st\\
+		\hline terrancelee81 & added latex docs& April 21st\\
+		\hline &&\\		
+	\end{tabular}
+\end{center}
+\section{Work Log}
+\begin{itemize}
+	\item April 11th - began working on the kernel part of the assignment
+	\item April 18th - began working on the producer and consumer functions
+	\item April 20th - built the Mutex locks
+	\item April 21st - began writing up the documents
+	\item April 21st - finished the kernel part
+	\item April 21st - finished the concurrency assignment
+	\item April 21st - finished the write-up
+	\item April 21st - setup github
+	\item April 21st - started and finished makefile
+\end{itemize}
+
+\end{document}
