@@ -124,7 +124,7 @@ We thought about how in real life this "problem" would really happen.  Well you 
 \subsection{How did you ensure your solution was correct?}
 We tested the code with printf functions to make sure that first the producer and consumer where locking and unlocking correctly.  Then we made sure that they were waiting the proper times and putting out random numbers as well.  We tested the code not just once because you may get it correct the first time or even the second time but the tenth time may have an error.  So we tested it many times.  
 \subsection{What did you learn?}
-First we learned we all have to adjust to each other quickly.  We are all different have different personalities and we're smart. If we adjust to each other we can get work done quickly and efficiently as well as correctly. We learned from concurrency that our threads aren't deadlock and that you use  
+First we learned we all have to adjust to each other quickly.  We are all different have different personalities and we're smart. If we adjust to each other we can get work done quickly and efficiently as well as correctly. We learned from concurrency that our threads can deadlock and that you use Mutex locks to prevent them.  We also learned how to use parallel programing better which helps use the overall cpu more efficiently.  
 \section{Qemu Command-Line Flags}
 \begin{itemize}
 	\item -gdb tcp::6511 - Opens a GDB server on TCP port 6511
