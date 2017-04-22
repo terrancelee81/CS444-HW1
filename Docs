@@ -127,18 +127,18 @@ We tested the code with printf functions to make sure that first the producer an
 First we learned we all have to adjust to each other quickly.  We are all different have different personalities and we're smart. If we adjust to each other we can get work done quickly and efficiently as well as correctly. We learned from concurrency that our threads aren't deadlock and that you use  
 \section{Qemu Command-Line Flags}
 \begin{itemize}
-	\item -gdb tcp::6511 - Open a GDB server on TCP port 6511
-	\item -S - Do not start the CPU at startup.
-	\item -nographic - Disables graphical output so that QEMU is a command line operation.
-	\item -kernel linux-yocto-4.14/arch/x86/boot/bzImage - Uses this bzImage as a kernel image.
+	\item -gdb tcp::6511 - Opens a GDB server on TCP port 6511
+	\item -S - So that CPU does not start at startup.
+	\item -nographic - Disables graphical output so that QEMU is a command line operation only.
+	\item -kernel linux-yocto-4.14/arch/x86/boot/bzImage - Uses this bzImage for the kernel image.
 	\item -drive file=core-image-quemux86.ext3 - Defines a new drive with the file option set.
 	\item if=virtio
-	\item -enable-kvm - Enables KVM virtualization report.
+	\item -enable-kvm - Enables the KVM virtualization report.
 	\item -net none - Indicates that no network devices should be configured.
 	\item -usb - Enables the USB driver.
 	\item -localtime - Gives the local time.
-	\item -- no-reboot
-	\item -- apend "root=/dev/vda rw console=ttyS0 debug" - Uses the argument as the kernel command line.
+	\item -- no-reboot -
+	\item -- apend "root=/dev/vda rw console=ttyS0 debug" - Uses the argume
 \end{itemize}
 \section{Version Control Log}
 \begin{center}
