@@ -1,5 +1,5 @@
 export PATH := /usr/local/apps/tex_live/current/bin/x86_64-linux:$(PATH)
-DOCUMENT_NAME = Project1.tex
+DOCUMENT_NAME = Project1
 
 writeup:
 	latex $(DOCUMENT_NAME).tex	
